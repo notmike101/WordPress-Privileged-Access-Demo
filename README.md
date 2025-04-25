@@ -1,112 +1,111 @@
-# Wordpress Backdoor Plugin
+# Wordpress Admin Persistence Plugin (Educational Purposes Only)
 
-## Heads up
+# Disclaimer
 
-This project is not maintained and likely won't be for quite some time since I'm fairly busy with other projects. If you want to update the plugin to work if something is broken, feel free to submit a PR.
+This plugin was created strictly for **educational and controlled-environment use**. It serves as a **security awareness tool** that demonstrates how WordPress plugins can be used to maintain persistent administrative access, hide users, and load arbitrary code without detection.
 
-## Contributors
-* IRDeNial
+This is **not a malicious tool**, but it replicates behaviors seen in real-world backdoor plugins.  
+Its purpose is to help developers, sysadmins, and security professionals understand potential plugin-based attack vectors and encourage tighter plugin auditing and defense practices.
 
-## Tested On
-* Version 4.5.3
-* Version 4.5.2
-* Version 4.5.1
-* Version 4.5
+**Misuse may violate laws and ethical guidelines.** The authors accept no responsibility for unauthorized or malicious use.
 
-**License**: GPLv3 or later
+**Do not use this plugin on systems you do not own or have explicit permission to test.**
 
-# Description
+# Why This Exists
 
-This plugin is strictly for educational and rescue purposes only.  Misuse of this plugin is caused by the intention of the user, not at the contributors.  The contributors take no responsibility for any misuse of this plugin.
+Many developers and site owners trust plugins without understanding the access they grant.  
+This project was created to demonstrate how certain plugin structures can be misused to create hidden admin accounts, load arbitrary code, and maintain stealth access - **all without leaving obvious traces**.
 
-This plugin does the following:
-* Creates an administrator user
-* Installs all plugins located in the ./plugins/ folder.
-* Hides said administrator user from the user control area
-* Hides the backdoor plugin & all plugins loaded by it
-* Hides the plugin and user counters
-* Implements a "kill switch" into the website that redirects to "purple.com" (No affiliation, just a funny site)
-* Implements a method to access the c99 & b374k PHP shells via URL
 
-# Installation
+This tool was built to:
 
-1. Download the latest release from here: 
-    * https://github.com/IRDeNial/Wordpress-Backdoor-Plugin/releases
-2. Modify the plugin as necessary.  Future versions will have an easier method of controlling access.
-    * Backdoor username, password, and key are all stored in the __construct() method of the plugin.  Search for `$this->username =`, `$this->password =`, and `$this->key =` in order to find the individual things that need to be configured.  Again, this will change in the future.
-2. Upload the plugin files to the `/wp-content/plugins/wp-sph/` directory (If it does not exist, create it), or install the plugin through the WordPress plugins screen directly if you want to keep everything default.
-3. Activate the plugin through the 'Plugins' screen in WordPress.  It is titled `WordPress Importing Tool`
-4. Login as the configured user.
+- Demonstrate abuse potential in WordPress's plugin architecture
+- Encourage thorough review of plugin code and permissions
+- Educate developers and defenders on plugin-level persistence and stealth techniques
 
+It is **not** intended for exploitation, but to raise awareness and support ethical research.
+
+# What This Plugin Demonstrates
+
+This plugin simulates common WordPress security threats by showcasing:
+
+- Hidden creation of an administrator account
+- Stealth plugin loading from a designated folder (`./plugins/`)
+- Obfuscation of users and plugins in the admin dashboard
+- A URL-based "kill switch" that simulates site-level redirect behavior
+- Optional access to legacy web shells (e.g., c99, b374k) via configured keys (*for research purposes only*)
+- A file access function using base64-encoded filenames for testing visibility of sensitive files like `wp-config.php`
+
+These behaviors are intended for **red team simulation**, **educational labs**, or **plugin auditing research**—**never production use**.
+
+# Intended Audience
+
+This tool is intended for:
+
+* Security researchers studying WordPress plugin-based persistence
+* Developers learning to identify dangerous plugin patterns
+* Educators teaching secure development or ethical hacking
+* Red teamers simulating stealth plugin-based access in test environments
+
+# Tested On
+
+- WordPress 4.5 through 4.5.3
+
+*Note: This plugin is not actively maintained. Contributions are welcome.*
+
+# Installation (In local test environment only)
+
+*Note:* **Do not install on production systems.**
+
+1. Clone or download the repository
+2. Modify the username, password, and access key in the plugin's `__construct()` method.
+3. Upload the plugin to `/wp-content/plugins/wp-sph/`
+4. Activate the plugin (titled `WordPress Importing Tool`) via the WordPress Admin plugins screen.
+5. Log in using the credentials you configured
+
+# Ethical Usage
+
+If you use this plugin:
+
+- Only do so in environments you own or have explicit permission to test
+- Use it in educational demos, red team exercises, or code analysis settings
+- Never deploy it on public or client-facing systems
+
+If you're a defender or plugin reviewer, this tool can help highlight gaps in detection and offer insights into stealth plugin behavior.
 
 # Frequently Asked Questions
 
-* **What is the default login?**
-    * Username: WVuIr83XIZ8Zll1
-    * Password: C6oh3K5M9SHuCgQ
+**Q: What does the plugin do by default?**  
+A: It creates a hidden administrator account with pre-defined credentials and an access key. These are defined in the plugin’s constructor and must be modified before any use. This simulates persistence techniques used in real-world malicious plugins.
 
-* **What is the default key?**
-    * jds89f43qmpewqfiopsejaSDJF
+**Q: Where is the backdoor user stored and how is it hidden?**
+A: The user is created as a standard WordPress admin but filtered from the admin UI using WordPress hooks—similar to how real backdoors avoid detection.
 
-* **How do I access a PHP shell?**
-    * To access, for example, the default C99 shell on http://localhost.com, you would navigate to this url:    
-        * http://localhost.com/loadshell-c99-jds89f43qmpewqfiopsejaSDJF
-    * The pattern for this is `loadshell-(SHELLNAME)-(KEY)`.
+**Q: How are additional plugins installed?**
+A: Any plugin ZIP files placed in the `./plugins/` directory are automatically installed and activated when the backdoor is active. These plugins are hidden unless accessed by the backdoor user.
 
-* **How do I use the killsite feature?**
-    * To kill the website, for example, http://localhost.com, you would navigate to this url:
-        * http://localhost.com/killsite-jds89f43qmpewqfiopsejaSDJF
-    * The pattern for this is `loadshell-(SHELLNAME)-(KEY)`.
+**Q: Are plugins and users visible to other admins?**  
+A: The hidden user and loaded plugins are deleted to simulate attacker cleanup and reduce forensic evidence.
 
-* **How do I view files using the displayfile function?**
-    * The function accepts base64 encoded filenames.
-    * To view wp-config.php when viewing from the main webpage of localhost.com, you would navigate to this url:
-        * http://localhost.com/?displayfile-d3AtY29uZmlnLnBocA==
-    * The pattern for this is `?displayfile=(BASE64_ENCODE(FILENAME))`
+**Q: What happens when the plugin is deactivated?**  
+A: Upon deactivation, the backdoor user and any dynamically installed plugins are removed. This is meant to simulate an attacker covering their tracks.
 
-* **Does the backdoor user show up for other admins?**
-    * No, the backdoor user is only visible to the backdoor user.  All other users will not see the backdoor user.
+**Q: What is the purpose of the “kill switch” and shell access features?**
+A: These are included to demonstrate how plugin-based threats can introduce remote control or destructive functionality.
 
-* **Do any users see my installed plugins?**
-    * No, the plugins installed by this plugin are hidden to all users except the backdoor user.  Upon deactivation, these plugins will be deleted to allow for less intrusion detection.
+**Q: How can defenders detect this plugin or similar ones?**  
+A: Warning signs include:
+* Users existing in the database but not shown in the admin UI
+* Plugins present on disk but not visible in the plugin dashboard
+* Suspicious access logs or hidden GET parameters
+* Excessive or unexpected use of `add_filter()` or `remove_filter()` in plugin code
 
-* **If I deactivate the plugin, will I still have access to the website?**
-    * No, upon deactivation, the plugin will remove the backdoor user and delete all plugins that it has installed.  The only remains of the plugin will be the plugin itself, so it is wise to delete the plugin files, excluding the plugin itself, before disabling.  This will be changed in a future version.
+**Q: What are the default login credentials and access key?**  
+A: Credentials must be manually configured in the plugin's `__construct()` method before use.
 
-# Contribution
-    * Any contributor will be added to the contributors list at the top of this document.
-    * Please pull from the development branch in order to get the latest code.
-    * All contributors are to fully document all changes to code in order to be considered for the next release.
-    * Contact @IRDeNial with any questions
+**Q: What does the `displayfile` function do?**  
+A: It allows file content retrieval via base64-encoded filenames in the URL. This demonstrates how poorly secured plugins may expose sensitive data such as `wp-config.php`. It should only be tested in local or sandbox environments and never deployed on systems connected to the internet.
 
-# Changelog
+# Usage Restrictions
 
-* **0.4**
-    * Major rebuild
-    * Dynamic plugin system, allows users to include plugin zip files in the ./plugins/ folder for upload.
-        * Installs & activates plugins on backdoor activation.
-        * Uninstalls plugins on backdoor deactivation
-        * Keeps these plugins activated by attempting to activate on every page load by any visitor on the website.
-    * Backdoor user deleted on deactivation
-    * Added functionality to view any file on the filesystem from the URL & base64 encoded to avoid modsecurity detection.
-
-* **0.3**
-    * Added in dynamic shell inclusion from the ./sh/ folder.  Allows for users of plugin to use whatever shell they prefer instead of specifically c99.
-    * Different hook for view of wp-config.php
-
-* **0.2**
-    * Changed to class layout for easier modification/use and less chance of conflict
-    * C99 shell inclusion by accessing it directly through plugin folder
-    * Added in killswitch functionality
-    * Added in functionality to view wp-config.php
-
-* **0.1**
-    * Made backdoor user creation routines
-    * Made backdoor user hidden from all users
-    * Made it forcefully activate if it is installed WP Downloader and keep it activated
-
-# Roadmap
-
-* Allow for custom code inclusion that takes advantage of the WP_SPH class & methods.
-* Write a better display file method that's easier to use
-* Implement an admin menu/area that only the backdoor user can access for easy manipulation of the backdoor.
+This plugin must **never** be deployed on production systems or environments you do not own or explicitly have permission to test. Use of this code in unauthorized or unethical scenarios may be illegal and is not supported by the authors.
