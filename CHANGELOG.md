@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 0.5 - 2025-04-25
+- Documentation and Ethical Reframing
+  - Updated plugin README with educational framing and full environment setup instructions.
+  - Rewrote sh/ and plugins/ folder usage policies, added .gitignore rules, and replaced harmful defaults with stubs.
+  - Reinforced disclaimers and usage boundaries for simulation-only behavior.
+- Project cleanup
+  - Streamlined codebase to focus on local educational testing and plugin behavior isolation.
+
 ## Version 0.4
 - Major internal refactor for modularity and maintainability
 - Introduced dynamic plugin system:

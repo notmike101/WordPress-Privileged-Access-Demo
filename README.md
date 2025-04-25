@@ -1,11 +1,8 @@
 # Wordpress Admin Persistence Plugin (Educational Purposes Only)
 
-# Disclaimer
+# Legal & Ethical Disclaimer
 
-This plugin was created strictly for **educational and controlled-environment use**. It serves as a **security awareness tool** that demonstrates how WordPress plugins can be used to maintain persistent administrative access, hide users, and load arbitrary code without detection.
-
-This is **not a malicious tool**, but it replicates behaviors seen in real-world backdoor plugins.  
-Its purpose is to help developers, sysadmins, and security professionals understand potential plugin-based attack vectors and encourage tighter plugin auditing and defense practices.
+This plugin is intended **strictly for educational use** in controlled environments. It demonstrates how WordPress plugins can be abused to maintain persistent administrative access, load unauthorized code, and hide user accounts—behaviors commonly found in malicious plugins.
 
 **Misuse may violate laws and ethical guidelines.** The authors accept no responsibility for unauthorized or malicious use.
 
@@ -58,18 +55,19 @@ This tool is intended for:
 *Note:* **Do not install on production systems.**
 
 1. Clone or download the repository
-2. Modify the username, password, and access key in the plugin's `__construct()` method.
-3. Upload the plugin to `/wp-content/plugins/wp-sph/`
-4. Activate the plugin (titled `WordPress Importing Tool`) via the WordPress Admin plugins screen.
-5. Log in using the credentials you configured
+2. Edit `wp-sph.php` and modify the username, password, and key in the `__construct()` method.
+3. Upload the plugin folder to `/wp-content/plugins/wp-sph/`
+4. Activate the plugin via the WordPress Admin panel (appears as `WordPress Importing Tool`) via the WordPress Admin plugins screen.
+5. Log in using the credentials you defined
 
 # Ethical Usage
 
-If you use this plugin:
+If you're using this plugin:
 
-- Only do so in environments you own or have explicit permission to test
-- Use it in educational demos, red team exercises, or code analysis settings
-- Never deploy it on public or client-facing systems
+- Only do so in environments you fully control or have explicit permission to test
+- Never expose the plugin or its functionality to the public web
+- Ensure all features (e.g., file viewer, shell access) are disabled unless testing in a secure lab
+-  Use it only to inform detection tools, educate developers, or train red teams
 
 If you're a defender or plugin reviewer, this tool can help highlight gaps in detection and offer insights into stealth plugin behavior.
 
@@ -108,4 +106,11 @@ A: It allows file content retrieval via base64-encoded filenames in the URL. Thi
 
 # Usage Restrictions
 
-This plugin must **never** be deployed on production systems or environments you do not own or explicitly have permission to test. Use of this code in unauthorized or unethical scenarios may be illegal and is not supported by the authors.
+This code must **not** be used for unauthorized access, red teaming without consent, or malicious purposes of any kind. Use in violation of terms of service, local laws, or ethical standards is prohibited.
+
+**This is a learning tool - not a penetration aid.**
+
+## 📜 License
+
+This project is licensed under the [GPLv3](LICENSE).  
+By using this code, you agree to use it responsibly and ethically.

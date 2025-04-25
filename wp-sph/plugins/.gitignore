@@ -1,0 +1,8 @@
+# Ignore all plugin s placed here for testing
+*.zip
+
+# Just in case someone extracts plugins direclly
+*/
+
+# But don't ignore this REAMD
+!README.md

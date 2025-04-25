@@ -1,0 +1,11 @@
+# This directory simulates attacker behavior by loading shell scripts via URL.
+# Do not commit actual shells (e.g., c99, b374k). Only include example stubs and documentation.
+
+# Ignore all real shell files
+*.php
+
+# Allow the example shell
+!example-shell.php
+
+# Keep this readme file
+!README.md
